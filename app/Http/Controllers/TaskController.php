@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
+use App\Models\Manager;
 use App\Models\Task;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -21,9 +22,11 @@ class TaskController extends Controller
      * Show the form for creating a new resource.
      */
     public function create(): View
-    {
-        return view('tasks.create');
-    }
+{
+    $managers = Manager::all();
+
+    return view('tasks.create', compact('managers'));
+}
 
     /**
      * Store a newly created resource in storage.
@@ -48,7 +51,8 @@ class TaskController extends Controller
      */
     public function edit(Task $task): View
     {
-        return view('tasks.edit', compact('task'));
+        $managers = Manager::all();
+        return view('tasks.edit', compact('task', 'managers'));
     }
 
     /**
