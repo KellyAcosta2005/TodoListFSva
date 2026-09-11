@@ -47,24 +47,28 @@ public function store(ManagerRequest $request): RedirectResponse
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Manager $manager)
-    {
-        //
-    }
+    public function edit(Manager $manager): View
+{
+    return view('managers.edit', compact('manager'));
+}
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Manager $manager)
-    {
-        //
-    }
+/**
+ * Update the specified resource in storage.
+ */
+public function update(ManagerRequest $request, Manager $manager): RedirectResponse
+{
+    $manager->update($request->validated());
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Manager $manager)
-    {
-        //
-    }
+    return to_route('managers.index')->with('success', 'Responsable actualizado');
+}
+
+/**
+ * Remove the specified resource from storage.
+ */
+public function destroy(Manager $manager): RedirectResponse
+{
+    $manager->delete();
+
+    return to_route('managers.index')->with('success', 'Responsable eliminado');
+}
 }
