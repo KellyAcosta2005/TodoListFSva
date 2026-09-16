@@ -22,3 +22,7 @@
         <p>No hay tareas creadas.</p>
     @endforelse
 @endsection
+
+@push('scripts')
+        <script>console.log('vista cargada en tareas')</script>
+@endpush
