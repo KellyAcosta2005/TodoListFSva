@@ -22,4 +22,4 @@
 
 <label><input type="checkbox" name="completed" value="1" @checked(old('completed', $task?->completed))> Completada</label>
 
-<button>{{ $button }}</button>
+<x-button type="submit" class="mt-4">{{ $button }}</x-button>
