@@ -3,3 +3,9 @@
     <summary>{{ $title }}</summary>
     <div>{{ $slot }}</div>
 </details>
+
+@once
+<script>
+    console.log('hola')
+</script>
+@endonce 
