@@ -1,20 +1,44 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <x-page-title 
+            title="Responsables" 
+            subtitle="Personas asignables a las tareas" 
+        />
+    </x-slot>
 
-@section('title', 'Manager')
+    <div class="py-8">
+        <div class="mx-auto max-w-7xl space-y-4 sm:px-6 lg:px-8">
+            <x-status-message />
 
-@section('content')
-    <a href="{{ route('managers.create') }}">Crear</a>
+            <div class="flex justify-end">
+                <a href="{{ route('managers.create') }}" class="rounded bg-indigo-600 px-4 py-2 text-white">
+                    Nuevo Responsable
+                </a>
+            </div>
 
-    @foreach ($managers as $manager)
-        <div>
-            <h2>{{ $manager->name }}</h2>
-            <p>{{ $manager->email }}</p>
-            <a href="{{ route('managers.edit', $manager) }}">Editar</a>
-            <form action="{{ route('managers.destroy', $manager) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Eliminar</button>
-            </form>
+            <div class="grid gap-4 md:grid-cols-2">
+                @forelse ($managers as $manager)
+                    <x-card :title="$manager->name">
+                        {{ $manager->email }}
+                        <p>{{ $manager->tasks_count }} tareas</p>
+                        <div class="mt-4 flex items-center gap-3 border-t border-gray-200 pt-4">
+                            <a href="{{ route('managers.edit', $manager) }}" class="text-indigo-600 hover:text-indigo-900">
+                                Editar
+                            </a>
+                            <form method="POST" action="{{ route('managers.destroy', $manager) }}"
+                                onsubmit="return confirm('¿Seguro que deseas eliminar este responsable?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </div>
+                    </x-card>
+                @empty
+                    <p>Todavía no hay responsables.</p>
+                @endforelse
+            </div>
         </div>
-    @endforeach
-@endsection
+    </div>
+</x-app-layout>

@@ -8,12 +8,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::redirect('/task', '/tasks');
+Route::middleware(['auth'])->group(function () {
+    Route::resource('managers', ManagerController::class);
+    Route::resource('tasks', TaskController::class);
+});
 
-Route::resources([
-    'managers' => ManagerController::class,
-    'tasks' => TaskController::class,
-]);
+Route::redirect('/task', '/tasks');
 
 Route::middleware([
     'auth:sanctum',

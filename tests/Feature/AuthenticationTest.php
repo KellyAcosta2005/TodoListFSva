@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Fortify\Features;
 use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
@@ -40,5 +41,17 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertGuest();
+    }
+
+    public function test_login_screen_shows_register_link_when_registration_feature_is_enabled(): void
+    {
+        if (! Features::enabled(Features::registration())) {
+            $this->markTestSkipped('Registration support is not enabled.');
+        }
+
+        $response = $this->get('/login');
+
+        $response->assertOk();
+        $response->assertSee(route('register'), false);
     }
 }
